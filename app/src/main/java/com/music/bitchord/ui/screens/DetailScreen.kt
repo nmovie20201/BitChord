@@ -1757,6 +1757,7 @@ private fun StatChip(icon: ImageVector, text: String, palette: ArtworkPalette) {
 @Composable
 private fun SignedByCaption(
     name: String,
+    subtitle: String? = null,
     palette: ArtworkPalette,
     modifier: Modifier = Modifier,
     textAlign: TextAlign = TextAlign.Center,
@@ -1768,6 +1769,19 @@ private fun SignedByCaption(
             append(signed)
             if (nameAt >= 0) {
                 addStyle(SpanStyle(fontWeight = FontWeight.Bold), nameAt, nameAt + name.length)
+            }
+            if (subtitle != null) {
+                addStyle(
+                    SpanStyle(
+                        fontStyle = FontStyle.Italic,
+                        fontSize = 12,
+                        color = palette.onBackground.copy(alpha = 0.6f)
+                    ),
+                    signed.length,
+                    signed.length + subtitle.length
+                )
+                append(" ")
+                append(subtitle)
             }
         },
         style = MaterialTheme.typography.bodyMedium,
@@ -1819,7 +1833,12 @@ private fun AboutSignature(
                 .height(ABOUT_LOGO_HEIGHT)
                 .aspectRatio(aspect),
         )
-        if (loaded) SignedByCaption(name = name, palette = palette, textAlign = TextAlign.Start)
+        if (loaded) SignedByCaption(
+        name = name, 
+        subtitle = if (trackAnalysis.bpm > 0) "${trackAnalysis.bpm.toInt()} BPM" else null,
+        palette = palette, 
+        textAlign = TextAlign.Start
+    )
     }
 }
 
