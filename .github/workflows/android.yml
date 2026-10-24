@@ -20,6 +20,9 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
+    - name: Clean Gradle Cache (แก้ปัญหา Cache ค้าง)
+      run: rm -rf ~/.gradle/caches
+
     - name: Create local.properties
       run: |
         echo "LASTFM_API_KEY=${{ secrets.LASTFM_API_KEY }}" > local.properties
